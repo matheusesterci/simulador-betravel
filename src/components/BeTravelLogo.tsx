@@ -21,34 +21,78 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
         xmlns="http://www.w3.org/2000/svg"
       >
         {/* ======================================================== */}
-        {/* 1. GLOBE WITH CONTINENTS, ORBIT & AIRPLANE               */}
+        {/* 1. GLOBE WITH LATITUDE & LONGITUDE GRID LINES + AIRPLANE */}
         {/* ======================================================== */}
         <g id="globe-group">
-          {/* Globe Boundary (White Ocean Base with Blue Ring) */}
+          {/* Base Globe Circle */}
           <circle
             cx="102"
             cy="114"
-            r="67"
+            r="66"
             fill={oceanBg}
             stroke={brandBlue}
             strokeWidth="3.6"
           />
 
-          {/* Continents (Filled with Brand Blue #47558A) */}
-          <g fill={brandBlue}>
-            {/* North America (Top-Left) */}
-            <path d="M 48 64 C 54 50 68 44 82 42 C 92 42 98 48 94 56 C 89 66 76 72 68 82 C 60 88 46 80 48 64 Z" />
-            <path d="M 78 40 C 82 34 94 36 96 42 C 94 46 86 46 80 44 Z" />
+          {/* Grid: Vertical Central Meridian */}
+          <line
+            x1="102"
+            y1="48"
+            x2="102"
+            y2="180"
+            stroke={brandBlue}
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
 
-            {/* South America (Bottom-Left) */}
-            <path d="M 58 100 C 66 94 78 100 76 114 C 73 130 62 152 52 154 C 47 154 48 140 51 126 C 54 114 52 106 58 100 Z" />
+          {/* Grid: Elliptical Meridians (Curved Longitude Lines) */}
+          <ellipse
+            cx="102"
+            cy="114"
+            rx="38"
+            ry="66"
+            stroke={brandBlue}
+            strokeWidth="2.8"
+            fill="none"
+          />
+          <ellipse
+            cx="102"
+            cy="114"
+            rx="18"
+            ry="66"
+            stroke={brandBlue}
+            strokeWidth="2.4"
+            fill="none"
+          />
 
-            {/* Europe / Eurasia (Top-Right) */}
-            <path d="M 104 38 C 116 32 138 34 152 46 C 160 56 166 70 162 82 C 154 78 148 76 140 80 C 130 86 128 96 118 94 C 110 92 108 80 106 66 C 104 52 98 44 104 38 Z" />
+          {/* Grid: Equator (Horizontal Line) */}
+          <line
+            x1="36"
+            y1="114"
+            x2="168"
+            y2="114"
+            stroke={brandBlue}
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
 
-            {/* Africa (Center-Right to Bottom-Right) */}
-            <path d="M 98 84 C 108 80 124 88 126 102 C 128 118 120 136 110 148 C 104 154 96 144 98 130 C 101 118 94 110 96 98 C 97 92 97 86 98 84 Z" />
-          </g>
+          {/* Grid: Upper Latitude (Parallel) */}
+          <path
+            d="M 50 82 C 68 93 136 93 154 82"
+            stroke={brandBlue}
+            strokeWidth="2.8"
+            strokeLinecap="round"
+            fill="none"
+          />
+
+          {/* Grid: Lower Latitude (Parallel) */}
+          <path
+            d="M 50 146 C 68 135 136 135 154 146"
+            stroke={brandBlue}
+            strokeWidth="2.8"
+            strokeLinecap="round"
+            fill="none"
+          />
 
           {/* Orbit Ring wrapping around the Globe */}
           {/* Upper / Left segment */}
@@ -80,8 +124,6 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
         {/* ======================================================== */}
         <g id="letters-be" fill={brandBlue}>
           {/* LETTER B */}
-          {/* Starts at X=214, Width=104, Height=130 (Y: 38 to 168) */}
-          {/* Chamfers: top-right and bottom-right 26px cut, center waist notch */}
           <path
             d="M 214 38
                H 292
@@ -114,8 +156,6 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
           />
 
           {/* LETTER E */}
-          {/* Starts at X=334, Width=102, Height=130 (Y: 38 to 168) */}
-          {/* Chamfers: top-right and bottom-right 26px cut, shorter middle bar */}
           <path
             d="M 334 38
                H 412
@@ -139,12 +179,11 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
         {/* ======================================================== */}
         {/* 3. "TRAVEL" (SQUARE TECHNO GEOMETRIC ALL-CAPS)           */}
         {/* ======================================================== */}
-        {/* Y: 182 to 222 (Height = 40px), Span from X=214 to X=436   */}
         <g id="letters-travel" fill={brandBlue}>
-          {/* T (X=214 to 244) */}
+          {/* T */}
           <path d="M 214 182 H 244 V 194 H 234 V 222 H 224 V 194 H 214 V 182 Z" />
 
-          {/* R (X=252 to 282) */}
+          {/* R */}
           <path
             d="M 252 182
                H 274
@@ -164,10 +203,9 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
                H 263
                Z"
           />
-          {/* R right diagonal leg */}
           <path d="M 271 204 L 283 222 H 272 L 261 206 H 271 Z" />
 
-          {/* A (X=290 to 320) */}
+          {/* A */}
           <path
             d="M 300 182
                H 310
@@ -185,7 +223,7 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
                Z"
           />
 
-          {/* V (X=328 to 358) */}
+          {/* V */}
           <path
             d="M 328 182
                H 338
@@ -198,7 +236,7 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
                Z"
           />
 
-          {/* E (X=366 to 396) */}
+          {/* E */}
           <path
             d="M 366 182
                H 396
@@ -216,7 +254,7 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
                Z"
           />
 
-          {/* L (X=404 to 436) */}
+          {/* L */}
           <path
             d="M 404 182
                H 415
