@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface BeTravelLogoProps {
   className?: string;
@@ -7,10 +7,33 @@ interface BeTravelLogoProps {
 
 export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
   className = 'h-14',
-  variant = 'blue',
 }) => {
-  const brandBlue = variant === 'white' ? '#FFFFFF' : '#47558A';
-  const oceanBg = variant === 'white' ? '#47558A' : '#FFFFFF';
+  const [imageFailed, setImageFailed] = useState(false);
+
+  // Try loading real official image file from public folder first
+  if (!imageFailed) {
+    return (
+      <div className={`flex items-center select-none ${className}`}>
+        <img
+          src="./logo.png"
+          alt="BE TRAVEL"
+          className="h-full w-auto max-w-[240px] object-contain"
+          onError={() => {
+            // If logo.png not found, try be-travel.png
+            const imgEl = document.querySelector('img[alt="BE TRAVEL"]') as HTMLImageElement;
+            if (imgEl && !imgEl.src.includes('be-travel.png')) {
+              imgEl.src = './be-travel.png';
+            } else {
+              setImageFailed(true);
+            }
+          }}
+        />
+      </div>
+    );
+  }
+
+  // High-fidelity vector fallback based on official brand manual
+  const brandBlue = '#4F5D8E';
 
   return (
     <div className={`flex items-center select-none ${className}`}>
@@ -21,109 +44,48 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
         xmlns="http://www.w3.org/2000/svg"
       >
         {/* ======================================================== */}
-        {/* 1. GLOBE WITH LATITUDE & LONGITUDE GRID LINES + AIRPLANE */}
+        {/* GLOBE WITH CONTINENTS, ORBIT & AIRPLANE (OFFICIAL RATIO) */}
         {/* ======================================================== */}
-        <g id="globe-group">
-          {/* Base Globe Circle */}
-          <circle
-            cx="102"
-            cy="114"
-            r="66"
-            fill={oceanBg}
-            stroke={brandBlue}
-            strokeWidth="3.6"
-          />
+        <g id="globe">
+          {/* Base Globe Circle (White with blue stroke) */}
+          <circle cx="100" cy="114" r="66" fill="#FFFFFF" stroke={brandBlue} strokeWidth="3.5" />
 
-          {/* Grid: Vertical Central Meridian */}
-          <line
-            x1="102"
-            y1="48"
-            x2="102"
-            y2="180"
-            stroke={brandBlue}
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
+          {/* Continents in Brand Blue */}
+          <g fill={brandBlue}>
+            {/* North America */}
+            <path d="M 44 68 C 48 54 62 44 80 44 C 94 44 102 52 98 62 C 92 72 78 78 70 88 C 62 94 46 84 44 68 Z" />
+            <path d="M 76 42 C 80 36 90 38 92 44 C 90 48 82 48 76 44 Z" />
 
-          {/* Grid: Elliptical Meridians (Curved Longitude Lines) */}
-          <ellipse
-            cx="102"
-            cy="114"
-            rx="38"
-            ry="66"
-            stroke={brandBlue}
-            strokeWidth="2.8"
-            fill="none"
-          />
-          <ellipse
-            cx="102"
-            cy="114"
-            rx="18"
-            ry="66"
-            stroke={brandBlue}
-            strokeWidth="2.4"
-            fill="none"
-          />
+            {/* South America */}
+            <path d="M 54 104 C 64 96 76 102 74 116 C 70 132 58 152 48 154 C 44 154 44 142 48 128 C 52 116 48 110 54 104 Z" />
 
-          {/* Grid: Equator (Horizontal Line) */}
-          <line
-            x1="36"
-            y1="114"
-            x2="168"
-            y2="114"
-            stroke={brandBlue}
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
+            {/* Europe / Eurasia */}
+            <path d="M 102 40 C 114 34 136 36 150 48 C 158 58 164 72 160 84 C 152 80 146 78 138 82 C 128 88 126 98 116 96 C 108 94 106 82 104 68 C 102 54 96 46 102 40 Z" />
 
-          {/* Grid: Upper Latitude (Parallel) */}
+            {/* Africa */}
+            <path d="M 96 86 C 106 82 122 90 124 104 C 126 120 118 138 108 150 C 102 156 94 146 96 132 C 99 120 92 112 94 100 C 95 94 95 88 96 86 Z" />
+          </g>
+
+          {/* Orbit swoop line around globe */}
           <path
-            d="M 50 82 C 68 93 136 93 154 82"
-            stroke={brandBlue}
-            strokeWidth="2.8"
-            strokeLinecap="round"
-            fill="none"
-          />
-
-          {/* Grid: Lower Latitude (Parallel) */}
-          <path
-            d="M 50 146 C 68 135 136 135 154 146"
-            stroke={brandBlue}
-            strokeWidth="2.8"
-            strokeLinecap="round"
-            fill="none"
-          />
-
-          {/* Orbit Ring wrapping around the Globe */}
-          {/* Upper / Left segment */}
-          <path
-            d="M 36 142 C 20 96 48 44 98 34 C 146 24 186 60 184 108 C 182 144 156 178 120 186"
-            stroke={brandBlue}
-            strokeWidth="3.2"
-            strokeLinecap="round"
-            fill="none"
-          />
-          {/* Lower segment towards plane */}
-          <path
-            d="M 48 162 C 62 178 80 186 104 188"
+            d="M 34 144 C 18 98 46 46 96 36 C 144 26 184 62 182 110 C 180 146 154 180 118 188"
             stroke={brandBlue}
             strokeWidth="3.2"
             strokeLinecap="round"
             fill="none"
           />
 
-          {/* Airplane on Orbit (Bottom-Right, Angled Clockwise ~38 deg) */}
-          <g transform="translate(136, 172) rotate(-38)" fill={brandBlue}>
-            {/* Fuselage, Wings, Tailfin */}
-            <path d="M 0 -20 L 8 -6 L 24 -1 L 24 4 L 8 2 L 6 15 L 12 21 L 12 25 L 2 23 L -2 23 L -12 25 L -12 21 L -6 15 L -8 2 L -24 4 L -24 -1 L -8 -6 Z" />
+          {/* Airplane on orbit */}
+          <g transform="translate(138, 172) rotate(-35)" fill={brandBlue}>
+            <path d="M 0 -18 L 7 -6 L 22 -1 L 22 3 L 7 1 L 5 14 L 11 19 L 11 23 L 2 21 L -2 21 L -11 23 L -11 19 L -5 14 L -7 1 L -22 3 L -22 -1 L -7 -6 Z" />
           </g>
         </g>
 
         {/* ======================================================== */}
-        {/* 2. "BE" (VARSITY / ATHLETIC BOLD CHAMFERED BLOCK)        */}
+        {/* "BE" ATHLETIC BLOCK TYPOGRAPHY                           */}
         {/* ======================================================== */}
-        <g id="letters-be" fill={brandBlue}>
-          {/* LETTER B */}
+        <g id="be-text" fill={brandBlue}>
+          {/* B */}
           <path
             d="M 214 38
                H 292
@@ -155,7 +117,7 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
             fillRule="evenodd"
           />
 
-          {/* LETTER E */}
+          {/* E */}
           <path
             d="M 334 38
                H 412
@@ -177,94 +139,16 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
         </g>
 
         {/* ======================================================== */}
-        {/* 3. "TRAVEL" (SQUARE TECHNO GEOMETRIC ALL-CAPS)           */}
+        {/* "TRAVEL" DIRECTLY UNDER "BE"                             */}
         {/* ======================================================== */}
-        <g id="letters-travel" fill={brandBlue}>
-          {/* T */}
+        <g id="travel-text" fill={brandBlue}>
           <path d="M 214 182 H 244 V 194 H 234 V 222 H 224 V 194 H 214 V 182 Z" />
-
-          {/* R */}
-          <path
-            d="M 252 182
-               H 274
-               L 282 190
-               V 199
-               L 274 207
-               H 263
-               V 222
-               H 252
-               V 182
-               Z
-               M 263 192
-               V 198
-               H 271
-               L 274 195
-               L 271 192
-               H 263
-               Z"
-          />
+          <path d="M 252 182 H 274 L 282 190 V 199 L 274 207 H 263 V 222 H 252 V 182 Z M 263 192 V 198 H 271 L 274 195 L 271 192 H 263 Z" />
           <path d="M 271 204 L 283 222 H 272 L 261 206 H 271 Z" />
-
-          {/* A */}
-          <path
-            d="M 300 182
-               H 310
-               L 320 222
-               H 310
-               L 308 214
-               H 302
-               L 300 222
-               H 290
-               L 300 182
-               Z
-               M 304 204
-               H 306
-               L 305 194
-               Z"
-          />
-
-          {/* V */}
-          <path
-            d="M 328 182
-               H 338
-               L 343 211
-               L 348 182
-               H 358
-               L 349 222
-               H 337
-               L 328 182
-               Z"
-          />
-
-          {/* E */}
-          <path
-            d="M 366 182
-               H 396
-               V 192
-               H 377
-               V 197
-               H 392
-               V 207
-               H 377
-               V 212
-               H 396
-               V 222
-               H 366
-               V 182
-               Z"
-          />
-
-          {/* L */}
-          <path
-            d="M 404 182
-               H 415
-               V 212
-               H 436
-               V 222
-               H 404
-               V 182
-               Z"
-          />
+          <path d="M 300 182 H 310 L 320 222 H 310 L 308 214 H 302 L 300 222 H 290 L 300 182 Z M 304 204 H 306 L 305 194 Z" />
+          <path d="M 328 182 H 338 L 343 211 L 348 182 H 358 L 349 222 H 337 L 328 182 Z" />
+          <path d="M 366 182 H 396 V 192 H 377 V 197 H 392 V 207 H 377 V 212 H 396 V 222 H 366 V 182 Z" />
+          <path d="M 404 182 H 415 V 212 H 436 V 222 H 404 V 182 Z" />
         </g>
       </svg>
     </div>
