@@ -84,17 +84,63 @@ export const SimuladorCard: React.FC<SimuladorCardProps> = ({
     <div className="bg-white/95 backdrop-blur-md rounded-3xl border border-sky-200/90 shadow-xl p-6 sm:p-8 max-w-xl mx-auto transition-all">
       {/* Brand Logo & Header */}
       <div className="flex flex-col items-center text-center pb-6 border-b border-sky-100">
-        <div className="mb-3">
+        <div className="mb-2">
           {logoUrl ? (
             <img
               src={logoUrl}
               alt="BE TRAVEL"
-              className="h-16 sm:h-20 max-w-[240px] object-contain"
+              className="h-16 sm:h-20 max-w-[240px] object-contain cursor-pointer transition-transform hover:scale-105"
+              title="Clique para substituir a logo oficial"
+              onClick={() => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = (e) => {
+                  const file = (e.target as HTMLInputElement).files?.[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                      const res = ev.target?.result as string;
+                      if (res) {
+                        localStorage.setItem('betravel_official_logo_v3', res);
+                        window.dispatchEvent(new Event('logo-updated'));
+                      }
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                };
+                input.click();
+              }}
             />
           ) : (
             <BeTravelLogo className="h-16 sm:h-20" />
           )}
         </div>
+
+        {!logoUrl && (
+          <label className="text-[11px] text-sky-700/80 hover:text-sky-950 underline font-semibold cursor-pointer mb-2 transition-colors">
+            Carregar logo oficial (be travel.png)
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = (ev) => {
+                    const res = ev.target?.result as string;
+                    if (res) {
+                      localStorage.setItem('betravel_official_logo_v3', res);
+                      window.dispatchEvent(new Event('logo-updated'));
+                    }
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
+            />
+          </label>
+        )}
 
         <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
           Simulador de Parcelamento

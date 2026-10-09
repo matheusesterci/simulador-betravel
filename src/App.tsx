@@ -46,6 +46,19 @@ export default function App() {
     return localStorage.getItem(STORAGE_KEY_LOGO) || null;
   });
 
+  React.useEffect(() => {
+    const handleUpdate = () => {
+      const saved = localStorage.getItem(STORAGE_KEY_LOGO);
+      setLogoUrl(saved || null);
+    };
+    window.addEventListener('logo-updated', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('logo-updated', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
+  }, []);
+
   // Dedicated off-screen fixed-size ref for 100% reliable PNG rendering without any cropping
   const exportCardRef = useRef<HTMLDivElement | null>(null);
 
