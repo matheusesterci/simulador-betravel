@@ -1,6 +1,6 @@
 {
-  "name": "Simulador e Planilha de Parcelamento",
-  "description": "Simulador financeiro e gerador de planilhas de parcelamento com cálculo de taxas de cartão para clientes e exportação em Excel, PDF e WhatsApp.",
+  "name": "Simulador - BE TRAVEL",
+  "description": "Simulador financeiro e gerador de parcelas BE TRAVEL com cálculo de taxas de cartão para clientes e exportação em WhatsApp.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

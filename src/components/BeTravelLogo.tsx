@@ -29,7 +29,7 @@ export const BeTravelLogo: React.FC<BeTravelLogoProps> = ({
   clickable = true,
 }) => {
   const [activeLogoSrc, setActiveLogoSrc] = useState<string | null>(() => {
-    return localStorage.getItem(STORAGE_KEY_LOGO) || null;
+    return localStorage.getItem(STORAGE_KEY_LOGO) || './be-travel.png';
   });
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 

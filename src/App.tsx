@@ -25,7 +25,7 @@ const STORAGE_KEY_LOGO = 'betravel_official_logo_v3';
 const STORAGE_KEY_EXTRA = 'betravel_extra_por_parcela_v2';
 
 export default function App() {
-  const [amount, setAmount] = useState<number>(1000);
+  const [amount, setAmount] = useState<number>(0);
   const [isGeneratingPng, setIsGeneratingPng] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isRateModalOpen, setIsRateModalOpen] = useState<boolean>(false);
@@ -41,9 +41,9 @@ export default function App() {
     return 0;
   });
 
-  // Logo file persisted in localStorage as DataURL
+  // Logo file: use user's custom logo or the official be-travel.png uploaded to public/
   const [logoUrl, setLogoUrl] = useState<string | null>(() => {
-    return localStorage.getItem(STORAGE_KEY_LOGO) || null;
+    return localStorage.getItem(STORAGE_KEY_LOGO) || './be-travel.png';
   });
 
   React.useEffect(() => {
